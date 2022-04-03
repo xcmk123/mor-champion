@@ -1,0 +1,74 @@
+.table {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  display: grid;
+  grid-template-areas: 
+    'full-frame'
+    'full-frame';
+}
+
+.text-day-string {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  line-height: 28px;
+}
+
+.header {
+  display: flex;
+  padding: 0 10px;
+  justify-content: space-between;
+  .v-month-year {
+    > span:first-child {
+      margin-right: 5px;
+    }
+  }
+  .g-button {
+    > button {
+      padding: 5px;
+    }
+    > button:first-child {
+      margin-right: 5px;
+    }
+  }
+}
+
+// .btn-action {
+// }
+
+.body {
+  display: grid;
+  grid-template-columns: repeat(7, 32px);
+  grid-template-rows: repeat(6, 32px);
+}
+
+button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 200ms ease-in;
+  padding: 0;
+  &:hover {
+    background-color: rgba(128, 128, 128, 0.6) !important;
+  }
+}
+
+button:not(.in ~ button):not(.in), .out ~ button {
+  opacity: 0.5;
+}
+
+.start , .end {
+  padding: 2px;
+  span {
+    display: block;
+    line-height: 28px;
+    border-radius: 15px;
+    background-color: rgba(128, 128, 128, 1);
+  }
+}
+
+.start ~ button:not(.end ~ button):not(.end) {
+  background-color: rgba(128, 128, 128, 0.3);
+}
