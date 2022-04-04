@@ -29,7 +29,7 @@ const MONTH = {
 
 const ListDayInMonth = (days) => {
   // days - type of nubmer [0-31]
-  return Array.from(Array(days).keys())
+  return Array.from(Array(days + 1).keys())
 }
 
 const getFirstDayOfMonthInWeek = (year, month) => {
@@ -42,6 +42,10 @@ const getDaysInMonth = (year, month) => {
   return new Date(year, month, 0).getDate();
 }
 
+const getDateInPreviousMonth = (year, month) => {
+  return new Date(year, month - 1, 0).getDate()
+}
+
 const initalState = () => {
   const date = new Date()
   const month = date.getMonth() + 1
@@ -50,7 +54,8 @@ const initalState = () => {
     month: month,
     year: year,
     day: getFirstDayOfMonthInWeek(year, month),
-    days: getDaysInMonth(year, month) 
+    date: getDaysInMonth(year, month),
+    dateInPreviousMonth: getDateInPreviousMonth(year, month)
   }
 }
 
@@ -63,7 +68,22 @@ const Table = () => {
       year: (e.target.name === 'next' ? state?.year + 1 : state?.year - 1 )
     })
   }
-  
+
+  const RenderCalendar = ({list, depennecy}) => {
+    return (
+      <>
+        {
+          list.map((item, index) => 
+            <button key={index} className={clsx(depennecy)}>
+              <span>
+                {item}
+              </span>
+            </button>
+          )
+        }
+      </>
+    )
+  }
   return (
     <div className="table">
       <div className="header">
@@ -87,15 +107,13 @@ const Table = () => {
               <span key={index} className='text-day-string'>{item}</span>
             )
         }
-        {
-          [...ListDayInMonth(state.days)].map((item, index) => 
-            <button key={index} className={clsx(DEPENDENCY[item + 1])}>
-              <span>
-                {item + 1}
-              </span>
-            </button>
-          )
-        }
+        <RenderCalendar 
+          list={ListDayInMonth(state.dateInPreviousMonth).slice(-state.day)}
+        />
+        <RenderCalendar 
+          list={ListDayInMonth(state.date).slice(1)}
+          // depennecy={DEPENDENCY[item]}
+        />
       </div>  
     </div>
   )
